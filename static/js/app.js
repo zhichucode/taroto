@@ -153,9 +153,14 @@ function createCardElement(cardData, index) {
     // 获取位置标签
     const positionLabel = getPositionLabel(index);
     
+    // 生成图片路径
+    const imagePath = `/static/images/cards/${cardData.card.id:02d}.svg`;
+    
     card.innerHTML = `
         <div class="card-position">${positionLabel}</div>
-        <div class="card-image"></div>
+        <div class="card-image">
+            <img src="${imagePath}" alt="${cardData.card.name}" class="tarot-card-img">
+        </div>
         <div class="card-name">${cardData.card.name}</div>
         <div class="card-name-en">${cardData.card.name_en}</div>
         <div class="card-status ${cardData.is_reversed ? 'reversed' : 'upright'}">

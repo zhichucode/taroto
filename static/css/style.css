@@ -213,18 +213,23 @@ main {
     align-items: center;
     justify-content: center;
     margin-bottom: 16px;
+    overflow: hidden;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.2);
 }
 
-.card-image::before {
-    content: '🎴';
-    font-size: 4rem;
+.tarot-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 12px;
+    transition: transform 0.3s ease;
 }
 
 .card.reversed .card-image {
     transform: rotate(180deg);
 }
 
-.card.reversed .card-image::before {
+.card.reversed .tarot-card-img {
     transform: rotate(-180deg);
 }
 
