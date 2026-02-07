@@ -1,11 +1,13 @@
 // 全局变量
 let selectedSpreadCount = 1;
 let selectedSpreadType = 'single';
+let selectedStyle = 'classic';
 let currentCards = null;
 let currentInterpretation = null;
 
 // DOM 元素
 const spreadBtns = document.querySelectorAll('.spread-btn');
+const styleBtns = document.querySelectorAll('.style-btn');
 const drawBtn = document.getElementById('drawBtn');
 const resultSection = document.getElementById('resultSection');
 const cardsContainer = document.getElementById('cardsContainer');
@@ -18,11 +20,23 @@ const answerContent = document.getElementById('answerContent');
 
 // 初始化事件监听
 document.addEventListener('DOMContentLoaded', () => {
+    initializeStyleSelection();
     initializeSpreadSelection();
     initializeDrawButton();
     initializeResetButton();
     initializeQuestionFeature();
 });
+
+// 初始化牌组风格选择
+function initializeStyleSelection() {
+    styleBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            styleBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            selectedStyle = btn.dataset.style;
+        });
+    });
+}
 
 // 初始化提问功能
 function initializeQuestionFeature() {
@@ -199,9 +213,23 @@ async function drawCards(count) {
 function displayCards(cards) {
     cardsContainer.innerHTML = '';
     
+    // 设置牌阵样式类
+    cardsContainer.className = 'cards-container';
+    if (selectedSpreadType === 'three') {
+        cardsContainer.classList.add('spread-three');
+    } else if (selectedSpreadType === 'love') {
+        cardsContainer.classList.add('spread-five');
+    }
+    
+    // 逐张显示卡片
     cards.forEach((cardData, index) => {
         const card = createCardElement(cardData, index);
         cardsContainer.appendChild(card);
+        
+        // 延迟显示每张卡片
+        setTimeout(() => {
+            card.classList.add('revealed');
+        }, index * 600);
     });
     
     // 显示结果区域
@@ -218,6 +246,12 @@ function displayInterpretation(interpretation) {
     const summaryEl = document.getElementById('interpretationSummary');
     const overallEl = document.getElementById('interpretationOverall');
     const detailedEl = document.getElementById('detailedInterpretation');
+    const interpretationSection = document.getElementById('interpretationSection');
+    
+    // 先隐藏解读区域
+    interpretationSection.style.opacity = '0';
+    interpretationSection.style.transform = 'translateY(20px)';
+    interpretationSection.style.transition = 'all 0.5s ease';
     
     // 显示摘要
     summaryEl.textContent = interpretation.summary;
@@ -239,6 +273,12 @@ function displayInterpretation(interpretation) {
         `;
         detailedEl.appendChild(detailedItem);
     });
+    
+    // 延迟显示解读区域（等待所有卡片翻完）
+    setTimeout(() => {
+        interpretationSection.style.opacity = '1';
+        interpretationSection.style.transform = 'translateY(0)';
+    }, currentCards.length * 600 + 500);
 }
 
 // 创建卡牌元素

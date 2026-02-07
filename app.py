@@ -82,7 +82,27 @@ def generate_interpretation(cards, spread_type):
         position_names = ['指引']
         interpretation['summary'] = '这张牌代表了您当前的状况或需要关注的重要信息。'
         status_text = '逆位' if cards[0]['is_reversed'] else '正位'
-        interpretation['overall_guidance'] = f"您抽到的「{cards[0]['card']['name']}」（{status_text}）给您带来了重要的指引。{cards[0]['card']['meaning']}请根据这张牌的含义来指导您的下一步行动。"
+        card_name = cards[0]['card']['name']
+        card_meaning = cards[0]['card']['meaning']
+        
+        interpretation['overall_guidance'] = f"""您抽到的「{card_name}」（{status_text}）给您带来了重要的指引。
+
+【核心含义】
+{card_meaning}
+
+【深度解读】
+这张牌的出现并非偶然，它反映了您内心深处最真实的想法和感受。{card_name}所代表的力量正在您的生活中发挥作用，{card_meaning}。
+
+【行动建议】
+• 保持开放的心态，接受这张牌带来的信息
+• 思考这张牌如何与您当前的处境相关联
+• 根据牌的指引，调整你的计划和期望
+• 相信自己的直觉，它将引导你做出正确的选择
+
+【注意事项】
+请记住，塔罗牌的解读不是固定的预言，而是帮助你更好地理解自己的工具。最终的决策权始终在你手中。
+
+{card_meaning}请根据这张牌的含义来指导你的下一步行动。"""
     elif spread_type == 'three':
         position_names = ['过去', '现在', '未来']
         past_card = cards[0]
@@ -90,10 +110,42 @@ def generate_interpretation(cards, spread_type):
         future_card = cards[2]
         
         interpretation['summary'] = '这三张牌呈现了过去、现在和未来的发展脉络。'
-        interpretation['overall_guidance'] = f"""从过去到现在，您经历了「{past_card['card']['name']}」（{'逆位' if past_card['is_reversed'] else '正位'}）的影响，它代表着{past_card['card']['meaning']}。
-当前您正处在「{present_card['card']['name']}」（{'逆位' if present_card['is_reversed'] else '正位'}）的时期，{present_card['card']['meaning']}。
-根据当前的轨迹，未来可能出现「{future_card['card']['name']}」（{'逆位' if future_card['is_reversed'] else '正位'}）的局面，{future_card['card']['meaning']}。
-建议您结合这三张牌的指引，积极调整自己的态度和行动，朝着理想的方向前进。"""
+        
+        past_status = '逆位' if past_card['is_reversed'] else '正位'
+        present_status = '逆位' if present_card['is_reversed'] else '正位'
+        future_status = '逆位' if future_card['is_reversed'] else '正位'
+        
+        interpretation['overall_guidance'] = f"""【三牌阵解读：时间线的流动】
+
+【过去的影响】
+从过去到现在，您经历了「{past_card['card']['name']}」（{past_status}）的影响。
+它代表着：{past_card['card']['meaning']}
+这段经历塑造了您现在的思维模式和行为方式，是理解当前状况的关键。
+
+【当前的处境】
+当前您正处在「{present_card['card']['name']}」（{present_status}）的时期。
+这张牌显示：{present_card['card']['meaning']}
+您现在面临的挑战和机遇都集中体现在这张牌上，它指引着您当下的行动方向。
+
+【未来的趋势】
+根据当前的轨迹，未来可能出现「{future_card['card']['name']}」（{future_status}）的局面。
+预示着：{future_card['card']['meaning']}
+这是基于当前选择和行动可能产生的结果，但未来并非不可改变。
+
+【综合分析】
+这三张牌构成了一个完整的时间线故事：
+• 过去的经验为您提供了宝贵的教训
+• 现在的状况需要您的关注和行动
+• 未来的可能性取决于您当下如何应对
+
+【行动建议】
+• 回顾过去：从「{past_card['card']['name']}」中吸取经验
+• 把握现在：根据「{present_card['card']['name']}」的指引行动
+• 面向未来：以「{future_card['card']['name']}」的愿景为目标
+• 保持平衡：在时间线的流动中找到自己的节奏
+
+【最终指引】
+建议您结合这三张牌的指引，积极调整自己的态度和行动，朝着理想的方向前进。每一步都很重要，每一个选择都会影响最终的结果。"""
     elif spread_type == 'love':
         position_names = ['现状', '感受', '挑战', '建议', '结果']
         status_card = cards[0]
@@ -103,12 +155,51 @@ def generate_interpretation(cards, spread_type):
         outcome_card = cards[4]
         
         interpretation['summary'] = '这五张牌揭示了您爱情状况的完整图景。'
-        interpretation['overall_guidance'] = f"""您的爱情现状由「{status_card['card']['name']}」（{'逆位' if status_card['is_reversed'] else '正位'}）所代表，{status_card['card']['meaning']}。
-您内心的真实感受是「{feeling_card['card']['name']}」（{'逆位' if feeling_card['is_reversed'] else '正位'}），{feeling_card['card']['meaning']}。
-目前面临的挑战是「{challenge_card['card']['name']}」（{'逆位' if challenge_card['is_reversed'] else '正位'}），{challenge_card['card']['meaning']}。
-塔罗牌给出的建议是「{advice_card['card']['name']}」（{'逆位' if advice_card['is_reversed'] else '正位'}），{advice_card['card']['meaning']}。
-如果按照这个方向发展，可能的结果是「{outcome_card['card']['name']}」（{'逆位' if outcome_card['is_reversed'] else '正位'}），{outcome_card['card']['meaning']}。
-请记住，塔罗牌的指引可以帮助您更好地理解自己的感情，但最终的选择权在您手中。"""
+        
+        interpretation['overall_guidance'] = f"""【爱情阵解读：五维情感地图】
+
+【1. 现状分析】
+您的爱情现状由「{status_card['card']['name']}」（{'逆位' if status_card['is_reversed'] else '正位'}）所代表。
+{status_card['card']['meaning']}
+这是您当前感情状态的真实写照，反映了您在感情中遇到的具体情况。
+
+【2. 内心感受】
+您内心的真实感受是「{feeling_card['card']['name']}」（{'逆位' if feeling_card['is_reversed'] else '正位'}）。
+{feeling_card['card']['meaning']}
+这张牌揭示了您在情感层面最真实的需求和渴望，有些感受可能连您自己都未曾察觉。
+
+【3. 面临的挑战】
+目前面临的挑战是「{challenge_card['card']['name']}」（{'逆位' if challenge_card['is_reversed'] else '正位'}）。
+{challenge_card['card']['meaning']}
+这是您在感情道路上需要克服的障碍，正视挑战是解决问题的第一步。
+
+【4. 塔罗建议】
+塔罗牌给出的建议是「{advice_card['card']['name']}」（{'逆位' if advice_card['is_reversed'] else '正位'}）。
+{advice_card['card']['meaning']}
+这是一个来自宇宙的指引，帮助您找到处理感情问题的最佳方式。
+
+【5. 可能的结果】
+如果按照这个方向发展，可能的结果是「{outcome_card['card']['name']}」（{'逆位' if outcome_card['is_reversed'] else '正位'}）。
+{outcome_card['card']['meaning']}
+这是基于当前趋势的预测，提醒您关注行动可能带来的长远影响。
+
+【深度解析】
+五张牌形成了一个完整的情感图景：
+• 现状让您认清自己在哪里
+• 感受让您明白自己要什么
+• 挑战让您知道要克服什么
+• 建议为您提供行动指南
+• 结果让预见可能的方向
+
+【行动指南】
+• 面对现实：接受「{status_card['card']['name']}」所示的状态
+• 倾听内心：重视「{feeling_card['card']['name']}」表达的感受
+• 直面困难：勇敢应对「{challenge_card['card']['name']}」的挑战
+• 采纳建议：按照「{advice_card['card']['name']}」的指引行动
+• 展望未来：以「{outcome_card['card']['name']}」的愿景为目标
+
+【最终提醒】
+请记住，塔罗牌的指引可以帮助您更好地理解自己的感情，但最终的选择权在您手中。真正的幸福来自于自己的选择和行动，相信你的心，它会指引你走向正确的方向。"""
     
     # 为每张牌生成详细解读
     for i, card_data in enumerate(cards):
@@ -127,7 +218,24 @@ def generate_position_interpretation(card_data, position_name):
         'position': position_name,
         'card_name': card['name'],
         'is_reversed': is_reversed,
-        'interpretation': f"在{position_name}的位置上，「{card['name']}」（{'逆位' if is_reversed else '正位'}）{card['meaning']}"
+        'interpretation': f"""【{position_name}位置解读】
+
+在{position_name}的位置上，「{card['name']}」（{'逆位' if is_reversed else '正位'}）带来了重要的信息。
+
+【牌面含义】
+{card['meaning']}
+
+【位置解读】
+这张牌出现在{position_name}的位置，特别强调了{'阻碍' if is_reversed else '支持'}的方面。{'逆位表示能量的阻滞或内在阻力，需要你深入思考其中的原因。' if is_reversed else '正位显示能量流动顺畅，这是一个积极的信号。'}
+
+【实践建议】
+• 关注这张牌在{position_name}层面给出的具体指引
+• {'调整心态，克服内心的障碍' if is_reversed else '保持当前积极的状态'}
+• 将牌的智慧应用到实际的{position_name}情境中
+• 相信这张牌会帮助你在{position_name}方面做出正确的决定
+
+【核心信息】
+{card['meaning']}这是宇宙在{position_name}方面给你的重要提醒，请用心体会。"""
     }
 
 @app.route('/api/spread/<spread_type>')
