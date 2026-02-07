@@ -1,11 +1,9 @@
+# Python
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
 .Python
-env/
-venv/
-ENV/
 build/
 develop-eggs/
 dist/
@@ -21,9 +19,43 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
-.DS_Store
+
+# Virtual Environment
+venv/
+env/
+ENV/
+.venv
+
+# IDE
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
+.DS_Store
+
+# Flask
+instance/
+.webassets-cache
+
+# Environment variables
+.env
+.env.local
+
+# Logs
+*.log
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Temporary files
+tmp/
+temp/
+*.tmp
