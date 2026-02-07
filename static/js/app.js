@@ -154,7 +154,8 @@ function createCardElement(cardData, index) {
     const positionLabel = getPositionLabel(index);
     
     // 生成图片路径
-    const imagePath = `/static/images/cards/${cardData.card.id:02d}.svg`;
+    const cardId = cardData.card.id.toString().padStart(2, '0');
+    const imagePath = `/static/images/cards/${cardId}.svg`;
     
     card.innerHTML = `
         <div class="card-position">${positionLabel}</div>
