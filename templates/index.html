@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>塔罗牌解读 - Tarot Reading</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>✨ 塔罗牌解读 ✨</h1>
+            <p class="subtitle">探索你的命运与内心</p>
+        </header>
+
+        <main>
+            <section class="selection-section">
+                <h2>选择牌阵</h2>
+                <div class="spread-options">
+                    <button class="spread-btn active" data-count="1" data-type="single">
+                        <span class="icon">🎴</span>
+                        <span class="label">单张抽牌</span>
+                        <span class="desc">快速洞察当下</span>
+                    </button>
+                    <button class="spread-btn" data-count="3" data-type="three">
+                        <span class="icon">🎴🎴🎴</span>
+                        <span class="label">三牌阵</span>
+                        <span class="desc">过去-现在-未来</span>
+                    </button>
+                    <button class="spread-btn" data-count="5" data-type="love">
+                        <span class="icon">💕</span>
+                        <span class="label">爱情阵</span>
+                        <span class="desc">探索爱情运势</span>
+                    </button>
+                </div>
+            </section>
+
+            <section class="action-section">
+                <button id="drawBtn" class="draw-btn">
+                    <span class="btn-text">开始抽牌</span>
+                    <span class="btn-sparkle">✨</span>
+                </button>
+            </section>
+
+            <section id="resultSection" class="result-section hidden">
+                <h2>牌面解读</h2>
+                <div id="cardsContainer" class="cards-container"></div>
+                
+                <div id="interpretationSection" class="interpretation-section">
+                    <h3>🔮 综合解读</h3>
+                    <div id="interpretationSummary" class="interpretation-summary"></div>
+                    <div id="interpretationOverall" class="interpretation-overall"></div>
+                    
+                    <h3>📖 详细解读</h3>
+                    <div id="detailedInterpretation" class="detailed-interpretation"></div>
+                </div>
+                
+                <button id="resetBtn" class="reset-btn">重新抽牌</button>
+            </section>
+        </main>
+
+        <footer>
+            <p>© 2026 塔罗牌解读 - 心灵指引</p>
+        </footer>
+    </div>
+
+    <div id="loading" class="loading-overlay hidden">
+        <div class="loading-spinner"></div>
+        <p>正在洗牌...</p>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
