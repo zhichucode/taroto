@@ -135,6 +135,69 @@ def get_spread(spread_type):
     """获取指定牌阵的解读"""
     return jsonify({'spread_type': spread_type})
 
+@app.route('/api/ask', methods=['POST'])
+def ask_question():
+    """根据抽牌结果回答用户问题"""
+    data = request.get_json()
+    
+    cards = data.get('cards', [])
+    interpretation = data.get('interpretation', {})
+    question = data.get('question', '')
+    
+    # 构建上下文信息
+    context_parts = []
+    
+    # 添加牌面信息
+    card_info = []
+    for card in cards:
+        status = '逆位' if card['is_reversed'] else '正位'
+        card_info.append(f"- {card['card']['name']}（{status}）：{card['card']['meaning']}")
+    
+    context_parts.append("抽牌结果：")
+    context_parts.extend(card_info)
+    
+    # 添加解读信息
+    if interpretation.get('overall_guidance'):
+        context_parts.append("\n综合解读：")
+        context_parts.append(interpretation['overall_guidance'])
+    
+    # 添加用户问题
+    context_parts.append(f"\n用户问题：{question}")
+    
+    context = "\n".join(context_parts)
+    
+    # 生成回答（这里使用预设的回答模板，实际可以接入大模型API）
+    answer = generate_ai_answer(question, cards, interpretation)
+    
+    return jsonify({
+        'answer': answer,
+        'question': question
+    })
+
+def generate_ai_answer(question, cards, interpretation):
+    """生成AI回答（模拟大模型回复）"""
+    # 获取第一张牌的信息作为参考
+    if cards:
+        first_card = cards[0]
+        card_name = first_card['card']['name']
+        card_meaning = first_card['card']['meaning']
+        status = '逆位' if first_card['is_reversed'] else '正位'
+        
+        # 根据问题类型生成不同的回答
+        if '建议' in question or '怎么办' in question:
+            return f"根据「{card_name}」（{status}）的指引，{card_meaning}。\n\n具体建议：\n1. 深入思考当前的状况，不要急于做决定\n2. 关注牌面所强调的核心意义\n3. 结合实际情况灵活运用牌的指引\n4. 保持开放的心态，接受可能的变化\n\n记住，塔罗牌提供的是参考和启发，最终的决定权在你手中。"
+        
+        elif '感情' in question or '爱情' in question:
+            return f"在感情方面，「{card_name}」（{status}）提示你{card_meaning}。\n\n这暗示着：\n- 需要更加关注自己的内心感受\n- 沟通和理解是关系的关键\n- 保持真诚和耐心\n- 相信自己的直觉\n\n建议你与伴侣坦诚交流，共同面对挑战。"
+        
+        elif '事业' in question or '工作' in question:
+            return f"在事业上，「{card_name}」（{status}）预示着{card_meaning}。\n\n这提醒你：\n- 把握当前的机会\n- 保持专注和决心\n- 勇于面对挑战\n- 学会从经验中成长\n\n相信自己的能力，坚持下去会看到成果。"
+        
+        else:
+            return f"关于你问到的问题，「{card_name}」（{status}）的深层含义是{card_meaning}。\n\n这张牌提醒你：\n- 相信自己的直觉和判断\n- 保持积极乐观的心态\n- 从挑战中寻找成长的机会\n- 与信任的人分享你的想法\n\n塔罗牌的指引是帮助你更好地理解当前状况，请结合实际情况来参考这些建议。"
+    
+    return "请先抽牌，然后我才能根据牌面信息回答你的问题。"
+
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 8000))
     debug = os.environ.get('DEBUG', 'False').lower() == 'true'

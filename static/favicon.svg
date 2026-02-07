@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFA500;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#9370DB;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8A2BE2;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- 背景圆形 -->
+  <circle cx="32" cy="32" r="30" fill="url(#grad1)" filter="url(#glow)"/>
+  
+  <!-- 塔罗牌图案 -->
+  <rect x="16" y="8" width="32" height="48" rx="4" fill="url(#grad2)" stroke="#fff" stroke-width="2"/>
+  
+  <!-- 星星符号 -->
+  <text x="32" y="36" font-size="20" text-anchor="middle" fill="#FFD700" filter="url(#glow)">⭐</text>
+  
+  <!-- 装饰线条 -->
+  <line x1="20" y1="44" x2="44" y2="44" stroke="#FFD700" stroke-width="1.5" opacity="0.7"/>
+  <line x1="20" y1="48" x2="44" y2="48" stroke="#FFD700" stroke-width="1.5" opacity="0.7"/>
+</svg>

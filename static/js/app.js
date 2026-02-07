@@ -1,6 +1,8 @@
 // 全局变量
 let selectedSpreadCount = 1;
 let selectedSpreadType = 'single';
+let currentCards = null;
+let currentInterpretation = null;
 
 // DOM 元素
 const spreadBtns = document.querySelectorAll('.spread-btn');
@@ -9,13 +11,98 @@ const resultSection = document.getElementById('resultSection');
 const cardsContainer = document.getElementById('cardsContainer');
 const resetBtn = document.getElementById('resetBtn');
 const loading = document.getElementById('loading');
+const questionInput = document.getElementById('questionInput');
+const askBtn = document.getElementById('askBtn');
+const answerSection = document.getElementById('answerSection');
+const answerContent = document.getElementById('answerContent');
 
 // 初始化事件监听
 document.addEventListener('DOMContentLoaded', () => {
     initializeSpreadSelection();
     initializeDrawButton();
     initializeResetButton();
+    initializeQuestionFeature();
 });
+
+// 初始化提问功能
+function initializeQuestionFeature() {
+    if (askBtn && questionInput) {
+        askBtn.addEventListener('click', handleAskQuestion);
+        
+        // 支持 Enter 键提交（Ctrl+Enter 或 Cmd+Enter）
+        questionInput.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                e.preventDefault();
+                handleAskQuestion();
+            }
+        });
+    }
+}
+
+// 处理提问
+async function handleAskQuestion() {
+    const question = questionInput.value.trim();
+    
+    if (!question) {
+        alert('请输入你的问题');
+        return;
+    }
+    
+    if (!currentCards || !currentInterpretation) {
+        alert('请先抽牌后再提问');
+        return;
+    }
+    
+    try {
+        // 显示加载状态
+        askBtn.disabled = true;
+        askBtn.textContent = '思考中...';
+        
+        // 准备上下文信息
+        const context = {
+            cards: currentCards,
+            interpretation: currentInterpretation,
+            question: question
+        };
+        
+        // 调用 API 获取回答
+        const response = await fetch('/api/ask', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(context)
+        });
+        
+        if (!response.ok) {
+            throw new Error('获取回答失败');
+        }
+        
+        const data = await response.json();
+        
+        // 显示回答
+        displayAnswer(data.answer);
+        
+    } catch (error) {
+        console.error('提问出错:', error);
+        alert('获取回答失败，请重试');
+    } finally {
+        // 恢复按钮状态
+        askBtn.disabled = false;
+        askBtn.textContent = '提问';
+    }
+}
+
+// 显示回答
+function displayAnswer(answer) {
+    answerSection.classList.remove('hidden');
+    answerContent.textContent = answer;
+    
+    // 滚动到回答区域
+    setTimeout(() => {
+        answerSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 100);
+}
 
 // 初始化牌阵选择
 function initializeSpreadSelection() {
@@ -45,6 +132,10 @@ function initializeResetButton() {
         resultSection.classList.add('hidden');
         cardsContainer.innerHTML = '';
         
+        // 清除牌面信息
+        currentCards = null;
+        currentInterpretation = null;
+        
         // 清除解读区域
         const summaryEl = document.getElementById('interpretationSummary');
         const overallEl = document.getElementById('interpretationOverall');
@@ -53,6 +144,11 @@ function initializeResetButton() {
         if (summaryEl) summaryEl.textContent = '';
         if (overallEl) overallEl.textContent = '';
         if (detailedEl) detailedEl.innerHTML = '';
+        
+        // 清除提问区域
+        if (questionInput) questionInput.value = '';
+        if (answerSection) answerSection.classList.add('hidden');
+        if (answerContent) answerContent.textContent = '';
     });
 }
 
@@ -79,6 +175,10 @@ async function drawCards(count) {
         }
         
         const data = await response.json();
+        
+        // 保存牌面信息用于提问
+        currentCards = data.cards;
+        currentInterpretation = data.interpretation;
         
         // 显示牌面
         displayCards(data.cards);

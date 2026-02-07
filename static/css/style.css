@@ -457,6 +457,106 @@ footer {
     font-size: 0.9rem;
 }
 
+/* 提问区域样式 */
+.question-section {
+    margin-top: 40px;
+    padding-top: 40px;
+    border-top: 1px solid var(--separator);
+}
+
+.question-section h3 {
+    color: var(--text-primary);
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+    letter-spacing: -0.3px;
+}
+
+.question-hint {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+}
+
+.question-input-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.question-input {
+    width: 100%;
+    padding: 16px;
+    border: 2px solid var(--separator);
+    border-radius: 12px;
+    font-size: 1rem;
+    font-family: inherit;
+    resize: vertical;
+    transition: all 0.2s ease;
+    background: var(--card-bg);
+    color: var(--text-primary);
+}
+
+.question-input:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+}
+
+.question-input::placeholder {
+    color: var(--text-secondary);
+}
+
+.ask-btn {
+    align-self: flex-end;
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 32px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.ask-btn:hover {
+    background: #0051d5;
+    transform: translateY(-2px);
+}
+
+.ask-btn:active {
+    transform: translateY(0);
+}
+
+.ask-btn:disabled {
+    background: var(--separator);
+    cursor: not-allowed;
+    transform: none;
+}
+
+.answer-section {
+    margin-top: 24px;
+    padding: 24px;
+    background: var(--background);
+    border-radius: 12px;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.answer-section h4 {
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+.answer-content {
+    color: var(--text-primary);
+    line-height: 1.7;
+    font-size: 0.95rem;
+    white-space: pre-wrap;
+}
+
 /* 响应式设计 */
 @media (max-width: 768px) {
     header h1 {

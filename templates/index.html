@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>塔罗牌解读 - Tarot Reading</title>
+    <link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
@@ -53,6 +54,19 @@
                     
                     <h3>📖 详细解读</h3>
                     <div id="detailedInterpretation" class="detailed-interpretation"></div>
+                </div>
+                
+                <div id="questionSection" class="question-section">
+                    <h3>💬 继续提问</h3>
+                    <p class="question-hint">对抽牌结果有疑问？输入你的问题，获取更深入的解读</p>
+                    <div class="question-input-container">
+                        <textarea id="questionInput" class="question-input" placeholder="例如：这张牌对我的感情生活有什么具体建议？..." rows="3"></textarea>
+                        <button id="askBtn" class="ask-btn">提问</button>
+                    </div>
+                    <div id="answerSection" class="answer-section hidden">
+                        <h4>AI 回答：</h4>
+                        <div id="answerContent" class="answer-content"></div>
+                    </div>
                 </div>
                 
                 <button id="resetBtn" class="reset-btn">重新抽牌</button>
